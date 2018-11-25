@@ -7,20 +7,38 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import org.jetbrains.anko.*
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private val random = Random()
+
     lateinit var ui: MainActivityUI
+    lateinit var shakeDetector: ShakeDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         ui = MainActivityUI()
         ui.setContentView(this)
+
+        shakeDetector = ShakeDetector(this) {
+            ui.textView.text = if (random.nextBoolean()) "да" else "нет"
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        shakeDetector.start()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        shakeDetector.stop()
     }
 }
 
 //Класс, содержащий в себе верстку
-class MainActivityUI: AnkoComponent<MainActivity> {
+class MainActivityUI : AnkoComponent<MainActivity> {
 
     //lateinit объявляет, что эта переменная никогда не будет пустой, но инициализируется она не сразу
     lateinit var textView: TextView
