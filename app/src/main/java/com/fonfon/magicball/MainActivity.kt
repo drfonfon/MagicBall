@@ -8,6 +8,9 @@ import android.view.Gravity
 import android.view.View
 import android.widget.TextView
 import org.jetbrains.anko.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
@@ -20,13 +23,32 @@ class MainActivity : AppCompatActivity() {
     private val handler = Handler()
     private val runnable = Runnable { ui.textView.text = "Потряси меня" }
 
+    //В kotlin есть множество полезных встроенныых функицй
+    private var answers = listOf(
+        Answer("Да"),
+        Answer("Нет")
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        ui = MainActivityUI()
-        ui.setContentView(this)
+        ui = MainActivityUI().also {
+            it.setContentView(this)
+        }
+
+        api.answers().enqueue(object : Callback<List<Answer>> {
+            override fun onFailure(call: Call<List<Answer>>, t: Throwable) {
+            }
+
+            override fun onResponse(call: Call<List<Answer>>, response: Response<List<Answer>>) {
+                response.body()?.let {
+                    answers = it
+                }
+            }
+
+        })
 
         shakeDetector = ShakeDetector(this) {
-            ui.textView.text = if (random.nextBoolean()) "да" else "нет"
+            ui.textView.text = answers[random.nextInt(answers.size)].text
             handler.removeCallbacks(runnable)
             handler.postDelayed(runnable, 1500)
         }

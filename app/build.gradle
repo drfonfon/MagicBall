@@ -28,4 +28,11 @@ dependencies {
     //http: https://github.com/Kotlin/anko
     //kotlin библиотека для верстки компонентов ui
     implementation "org.jetbrains.anko:anko:0.10.8"
+
+    //https://square.github.io/retrofit/
+    //Retrofit - библиотека для https запросов
+    implementation 'com.squareup.retrofit2:retrofit:2.5.0'
+    //https://github.com/google/gson
+    //Gson - библиотека для сериализации Json объектов
+    implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
 }
