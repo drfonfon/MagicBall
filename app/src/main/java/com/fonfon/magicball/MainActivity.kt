@@ -1,9 +1,9 @@
 package com.fonfon.magicball
 
+import android.content.Context
 import android.graphics.Color
+import android.os.*
 import android.support.v7.app.AppCompatActivity
-import android.os.Bundle
-import android.os.Handler
 import android.view.Gravity
 import android.view.View
 import android.widget.TextView
@@ -15,13 +15,18 @@ import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var vibrator: Vibrator
     private val random = Random()
 
     lateinit var ui: MainActivityUI
     lateinit var shakeDetector: ShakeDetector
 
+    private var block = false
     private val handler = Handler()
-    private val runnable = Runnable { ui.textView.text = "Потряси меня" }
+    private val runnable = Runnable {
+        block = false
+        ui.textView.text = "Потряси меня"
+    }
 
     //В kotlin есть множество полезных встроенныых функицй
     private var answers = listOf(
@@ -34,6 +39,8 @@ class MainActivity : AppCompatActivity() {
         ui = MainActivityUI().also {
             it.setContentView(this)
         }
+
+        vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
         api.answers().enqueue(object : Callback<List<Answer>> {
             override fun onFailure(call: Call<List<Answer>>, t: Throwable) {
@@ -48,9 +55,13 @@ class MainActivity : AppCompatActivity() {
         })
 
         shakeDetector = ShakeDetector(this) {
-            ui.textView.text = answers[random.nextInt(answers.size)].text
-            handler.removeCallbacks(runnable)
-            handler.postDelayed(runnable, 1500)
+            if (block.not()) {
+                block = true
+                ui.textView.text = answers[random.nextInt(answers.size)].text
+                vibrate()
+                handler.removeCallbacks(runnable)
+                handler.postDelayed(runnable, 1500)
+            }
         }
     }
 
@@ -65,6 +76,16 @@ class MainActivity : AppCompatActivity() {
         handler.removeCallbacks(runnable)
         shakeDetector.stop()
     }
+
+    fun vibrate() {
+        vibrator.cancel()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createOneShot(300, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(300)
+        }
+    }
+
 }
 
 //Класс, содержащий в себе верстку
