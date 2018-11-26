@@ -29,3 +29,13 @@
 ## Иконка приложения
 Если очень хочется поменять иконку приложения - то можно воспользоваться [этим сайтом](https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html#foreground.type=clipart&foreground.clipart=android&foreground.space.trim=1&foreground.space.pad=0.25&foreColor=rgba(96%2C%20125%2C%20139%2C%200)&backColor=rgb(68%2C%20138%2C%20255)&crop=0&backgroundShape=square&effects=none&name=ic_launcher) для генерации иконок нужного размера.
 
+## Полезные ссылки
+1) [Android Developer](https://developer.android.com/) - тут находится вся документация
+2) [Startandroid](https://startandroid.ru/ru/) [AlexanderKlimov](http://developer.alexanderklimov.ru/android/) - хорошие гайды для новичков
+3) [AndroidWeekly](https://androidweekly.net/) - еженедельная подборка новостей из андроид разработки
+4) [KkotlinWeekly](http://kotlinweekly.net/) - еженедельная подборка новостей котлин
+5) [Apptractor](https://apptractor.ru/) - различне новости из мобилной разработки
+6) [Podlodka Podcast](https://soundcloud.com/podlodka) - подкаст о мобильной разработке (и не только)
+7) [Android Dev подкаст](https://soundcloud.com/leonid-bogolubov) - подкаст о мобильной разработке
+8) [Android-arsenal](https://android-arsenal.com/) - ссылки на различные библиотеки
+9) [Проект на гитхабе с UI бибилиотеками](https://github.com/wasabeef/awesome-android-ui)
